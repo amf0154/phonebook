@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="/js/controllers.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"> 
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> 
+        <title>PhoneBook TODO</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <div ng-show="table">       
+ <form class="form-inline" name="addForm" ng-show="addFormm">
+     <br/>
+  <div class="form-group">
+   &nbsp; <input type="text" name="name" class="form-control" id="ex1" ng-model="namee" placeholder="Имя" required>
+  </div>
+  <div class="form-group">
+   <input type ="text" name="phone" class="form-control" id="ex1" ng-model="phonee" placeholder="Телефон" required>
+  </div>
+     <div class="form-group">
+   <input type ="text" name="company"  class="form-control" id="ex1" ng-model="companyy" placeholder="Компания" required>
+  </div>
+     <div class="form-group">
+   <input type ="text" name="label" class="form-control" id="ex1" ng-model="labell" placeholder="Метка" required>
+  </div>
+  <button ng-if="addForm.$valid===true" type="button" class="form-control" id="ex1" ng-click="pusher(namee,phonee,companyy,labell,addForm)">Добавить</button>
+<p></p>
+  <span ng-show="addForm.name.$touched && addForm.name.$invalid">Введите имя добавляемого контакта.<br/></span>
+<span ng-show="addForm.name.$touched && addForm.phone.$invalid">Введите телефон добавляемого контакта!<br/></span>
+<span ng-show="addForm.name.$touched && addForm.company.$invalid">Введите компанию добавляемого контакта!<br/></span>
+<span ng-show="addForm.name.$touched && addForm.label.$invalid">Введите метку добавляемого контакта!<br/></span>
+ </form> 
+        
+      
+    <p/>
+    <br/>
+        <button type="button" class="btn btn-primary" ng-show="addContact" ng-click="addNew()">Добавить новый контакт</button>   
+   
+    <div class="form-inline" ng-show="searcher">
+    &nbsp;<input ng-model="search" class="form-control" id="ex1" placeholder="Поиск по значению">
+    <p/>
+   </div>
+
+    <body ng-controller="myController" >
+ <table class="table table-bordered" >                   
+   <thead><tr><th>Имя</th><th>Телефон</th><th>Компания</th><th>Метка</th><th colspan="2"><center>Управление</center></th></tr></thead> 
+      <tbody> 
+      
+       
+    <tr ng-repeat="user in peoples | startFrom: startingItem() | limitTo: itemsPerPage | filter:search as filteredData ">
+        <td>{{user.name}}</td>
+        <td>{{user.phone}}</td>
+        <td>{{user.company}}</td>
+        <td>{{user.label}}</td>
+        <td><center><button type="button" class="btn btn-danger" ng-click="del($index +(currentPage*itemsPerPage))">Удалить</button></center></td>
+        <td><center><button type="button" class="btn btn-primary" ng-click="enableEditor($index +(currentPage*itemsPerPage))">Редактир.</button></center></td>
+        
+    </tr> 
+    </tbody>    
+        </table>
+        
+ 
+        <center>
+         <ul class="pagination" ng-if="numberOfPages()>1">
+             <div ng-if="currentPage>0?firstPage():''"></div>
+  <li><a href="#" ng-disabled="firstPage()" ng-click="pageBack()">Назад</a></li>
+  <li ><a href="#"><b>{{currentPage+1}}</b> из {{numberOfPages()}}</a></li>
+  <li><a href="#" ng-disabled="lastPage()" ng-click="pageForward()">Вперед</a></li>
+</ul> 
+            </center>
+        
+          <div class="alert alert-success">
+  total added contacts in the book: <strong>{{peoples.length}}</strong>; Developer: <strong>gleb@sgsrv.ru</strong> // sgsrv.ru
+</div>
+  
+      </div>
+    
+        
+        
+    <div class="form-inline"  ng-show="editorEnabled" name="updateForm" required>
+        <br/>
+       <div class="form-group">
+      <input type ="text" name="name" class="form-control" id="ex1" ng-model="currentName" required>
+       </div>
+        <div class="form-group">
+    <input type ="text" name="phone" class="form-control" id="ex1" ng-model="currentPhone" required>
+    </div>
+    <div class="form-group">
+    <input type ="text" name="company" class="form-control" id="ex1" ng-model="currentCompany" required>
+    </div>
+        <div class="form-group">
+    <input type ="text" name="label" class="form-control" id="ex1" ng-model="currentLabel" required>
+    </div>
+    <button type="button"  class="btn btn-primary" ng-click="upd(idupd,currentName,currentPhone,currentCompany,currentLabel)">Сохранить</button>
+
+    <p/>
+   </div>
+    </body>
+    
+
+  
+
+   
+</html>
